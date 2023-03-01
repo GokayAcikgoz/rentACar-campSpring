@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -18,8 +20,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity //sen bir veri tabanı varlığısın. Tablo olarak da buraya karşılık geliyorsun.
-@Table(name = "brands") //veri tabani tablom
-public class Brand {
+@Table(name = "models") //veri tabani tablom
+public class Model {
 	
 	@Id //sen db de primary key alanısın
 	@GeneratedValue(strategy = GenerationType.IDENTITY) //sen otomatik artan bir id sin
@@ -29,8 +31,11 @@ public class Brand {
 	@Column(name = "name")
 	private String name;
 	
-	@OneToMany(mappedBy = "brand") //model nesnesine hangi alanla ilişkilendirilecek(mappedBy)
-	private List<Model> models;
+	@ManyToOne
+	@JoinColumn(name = "brand_id") //model tablosunda hangi alana karşılık gelecek
+	private Brand brand;
 	
-	
+	@OneToMany(mappedBy = "model")
+	private List<Car> cars;
+
 }
